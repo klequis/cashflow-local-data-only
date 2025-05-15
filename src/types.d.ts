@@ -1,16 +1,16 @@
 type Row = {
-  id: Number | null,
+  id: number,
   date: Date,
-  amount: Number,
-  balance: Number,
-  label: String
+  amount?: number,
+  balance?: number,
+  label?: string
 }
 
-type NewRow = {
-  id: number;
-  date: string | null | Date;
-  amount: number | any;
-  balance: number | null;
-  label: string | null;
-};
+// type NewRow = {
+//   id: number;
+//   date: string | null | Date;
+//   amount: number | any;
+//   balance: number | null;
+//   label: string | null;
+// };
 

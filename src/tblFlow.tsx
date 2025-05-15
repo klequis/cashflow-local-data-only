@@ -1,8 +1,7 @@
 import { createEffect, For } from "solid-js";
-import { createStore } from "solid-js/store";
-import AddRow from "./addRow"
-const log = console.log
-
+import { createStore, produce } from "solid-js/store";
+import AddRow from "./addRow";
+const log = console.log;
 
 const [store, setStore] = createStore({
   rowCount: 1,
@@ -18,10 +17,33 @@ const [store, setStore] = createStore({
 });
 
 // Move the setStore for the new row here
-function AddNewRow(newRow: NewRow) {
+function addNewRow(newRow: Row) {
   // do it all here.
-}
 
+  setStore(
+    "rows",
+    produce((row) => {
+      row.push({
+        id: newRow.id,
+        date: new Date(),
+        amount: newRow.amount,
+        balance: newRow.balance,
+        label: newRow.label,
+      });
+    })
+  );
+
+  // setStore("rows", (currentRows) => [
+  //   ...currentRows,
+  //   {
+  //     id: newRow.id,
+  //     date: new Date(),
+  //     amount: newRow.amount,
+  //     balance: newRow.balance,
+  //     label: newRow.label,
+  //   },
+  // ]);
+}
 
 export default function TblFlow() {
   createEffect(() => {
@@ -36,7 +58,15 @@ export default function TblFlow() {
   return (
     <>
       <h1>Cash Flow</h1>
-      <table>
+      <table class="table">
+        <thead>
+          <tr>
+            <td>Date</td>
+            <td>Amount</td>
+            <td>Balance</td>
+            <td>For</td>
+          </tr>   
+        </thead>
         <tbody>
           <For each={store.rows}>
             {(row) => {
@@ -51,7 +81,7 @@ export default function TblFlow() {
               );
             }}
           </For>
-          <AddRow id={store.rows.length} setStore={setStore}/>
+          <AddRow id={store.rows.length} addNewRow={addNewRow} />
         </tbody>
       </table>
     </>
@@ -59,7 +89,7 @@ export default function TblFlow() {
 }
 
 // {
-  /* <>
+/* <>
       <h1>Cash Flow</h1>
       <table>
         <tbody>
